@@ -4,7 +4,21 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    parametro =''
+    if params[:status].present?
+      if params[:status] == 'shelf' || params[:status] == 'Shelf'
+        parametro = 1
+      elsif params[:status] == 'given' || params[:status] == 'Given'
+        parametro = 0
+      end
+      # Filtramos
+        @books = Book.where('status == ?', parametro).order(title: :asc)
+       
+      else
+        @books = Book.all
+      end
+      
+   
   end
 
   # GET /books/1
